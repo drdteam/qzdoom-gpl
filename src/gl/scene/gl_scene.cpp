@@ -491,7 +491,7 @@ void FGLRenderer::DrawScene(int drawmode)
 	{
 		ssao_portals_available = 0;
 	}
-	else if (ssao_portals_available > 0)
+	else if (drawmode == DM_PORTAL && ssao_portals_available > 0)
 	{
 		applySSAO = true;
 		ssao_portals_available--;
@@ -949,6 +949,8 @@ void FGLRenderer::RenderView (player_t* player)
 	// Check if there's some lights. If not some code can be skipped.
 	TThinkerIterator<ADynamicLight> it(STAT_DLIGHT);
 	GLRenderer->mLightCount = ((it.Next()) != NULL);
+
+	GLRenderer->mShadowMap.Update();
 
 	sector_t * viewsector = RenderViewpoint(player->camera, NULL, FieldOfView.Degrees, ratio, fovratio, true, true);
 
